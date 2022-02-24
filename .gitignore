@@ -1,0 +1,35 @@
+.idea
+
+desktop.ini
+.vscode
+.ipynb_checkpoints/
+*.pyc
+*.pt
+*_log.txt
+*.mat
+*.o
+*.c
+*.h
+*.db
+*.binaryfile
+*.cpython-38.pyc
+bin/
+models/
+state
+node_modules/
+
+prototypes/__pycache__/
+prototypes/minimal/__pycache__/
+
+.DS_Store
+*.DS_Store
+
+prototypes/Stadle_Robotics/AppData/
+
+# YOLO example-specific ignores
+prototypes/examples/yolo_example/dataset
+prototypes/examples/yolo_example/yolov5
+prototypes/examples/yolo_example/output
+
+# pytest specific ignores
+.pytest_cache/
