@@ -48,19 +48,19 @@ The code provided here is a very basic level code to get user familiar with stru
 
 ### Execute cifar_example
 
-    - Install stadle_client package.
-        - `pip install --index-url http://[pypiserver_ip]:[port_number] stadle_client --trusted-host [pypiserver_ip] --extra-index-url https://pypi.org/simple`
-        - `pypiserver_ip` and `port_number` can be acquired by contacting our sales team.
-    - Setup config files to use correct `aggregator-IP-address`.
-        - This is denoted in the `config/config_admin_agent.json` file as `aggr_ip`.
-        - If the servers are run locally, this will be `localhost`.
-        - If Tieset provided servers are used, set the value appropriately.
-    - Execute admin_agent code.
-        - Admin agent sets up the model and other required details for later execution.
-        - One can run `python cifar_admin_agent.py` to run provided model through the process.
-    - Execute federated_learning agent.
-        - This will do the actual model training on the local machine and upload performance matrices to stadle servers and in the meantime, receieve the agumented models.
-        - One can run `python cifar_fl_agent.py`.
+- Install stadle_client package.
+  - `pip install --index-url http://[pypiserver_ip]:[port_number] stadle_client --trusted-host [pypiserver_ip] --extra-index-url https://pypi.org/simple`
+  - `pypiserver_ip` and `port_number` can be acquired by contacting our sales team.
+- Setup config files to use correct `aggregator-IP-address`.
+  - This is denoted in the `config/config_admin_agent.json` file as `aggr_ip`.
+  - If the servers are run locally, this will be `localhost`.
+  - If Tieset provided servers are used, set the value appropriately.
+- Execute admin_agent code.
+  - Admin agent sets up the model and other required details for later execution.
+  - One can run `python cifar_admin_agent.py` to run provided model through the process.
+- Execute federated_learning agent.
+  - This will do the actual model training on the local machine and upload performance matrices to stadle servers and in the meantime, receieve the agumented models.
+  - One can run `python cifar_fl_agent.py`.
 
 
 ## Tech Support
