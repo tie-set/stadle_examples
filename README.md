@@ -4,6 +4,7 @@
 
 Our STADLE platform is a paradigm-shifting technology for collaborative and continuous learning combining privacy-preserving frameworks.
 STADLE platform stands for Scalable, Traceable, Adaptive, Distributed Learning platform for versatile ML applications.
+In this repo, we will procide several examples into which STADLE's client-side libraries are integrated.
 
 ## Table of Contents
 
@@ -11,10 +12,7 @@ STADLE platform stands for Scalable, Traceable, Adaptive, Distributed Learning p
   - [Table of Contents](#table-of-contents)
   - [General Terminologies](#general-terminologies)
   - [Usage](#usage)
-  - [Contributing](#contributing)
-    - [Bug Reports](#bug-reports)
-    - [Tech Support](#tech-support)
-  - [License](#license)
+  - [Tech Support](#tech-support)
 
 ## General Terminologies
 
@@ -64,18 +62,9 @@ The code provided here is a very basic level code to get user familiar with stru
         - This will do the actual model training on the local machine and upload performance matrices to stadle servers and in the meantime, receieve the agumented models.
         - One can run `python cifar_fl_agent.py`.
 
-## Contributing
 
-Reach out with your issues or proposals to improve STADLE.
+## Tech Support
 
-### Bug Reports
+If you have any issues, please reach out to our technical support team via [support@tie-set.com](support@tie-set.com).
 
-Please check/submit issues [here](https://github.com/tie-set/stadle_examples/issues).
 
-### Tech Support
-
-Please reach out to our technical support team via [support@tie-set.com](support@tie-set.com).
-
-## License
-
-Any use and distribution of this code must be under the NDA with [TieSet Inc.](https://tie-set.com/)
