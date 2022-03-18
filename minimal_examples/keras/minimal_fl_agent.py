@@ -1,16 +1,14 @@
 import os
 import sys
-from typing import List
 import argparse
-
+import time
 import numpy as np
-
 import tensorflow as tf
+from typing import List
 from tensorflow import keras
-
 from stadle import IntegratedClient
 
-from minimal_model import MinimalModel
+# from minimal_model import MinimalModel
 
 def get_minimal_model():
     model = tf.keras.models.Sequential([
@@ -33,7 +31,7 @@ def train(model, data, **kwargs):
     print("Completed training")
 
     # Set trained model to original model for minimal example
-    trained_model = merged_model
+    trained_model = model
     # Example metric (average loss) that the training function can return
     ave_loss = 0
 

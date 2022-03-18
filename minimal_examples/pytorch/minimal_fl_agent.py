@@ -1,10 +1,11 @@
 import os
 import sys
+import time
 from typing import List
 import argparse
-
 import numpy as np
 import torch
+
 
 from stadle import IntegratedClient
 
@@ -17,7 +18,7 @@ def train(model, data, **kwargs):
     print("Completed training")
 
     # Set trained model to original model for minimal example
-    trained_model = merged_model
+    trained_model = model
     # Example metric (average loss) that the training function can return
     ave_loss = 0
 

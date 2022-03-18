@@ -24,7 +24,9 @@ prototypes/minimal/__pycache__/
 .DS_Store
 *.DS_Store
 
-prototypes/Stadle_Robotics/AppData/
+minimal_examples/pytorch/data
+minimal_examples/keras/data
+
 
 # YOLO example-specific ignores
 prototypes/examples/yolo_example/dataset
