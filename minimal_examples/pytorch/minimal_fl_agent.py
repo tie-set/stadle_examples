@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import random
 from typing import List
 import argparse
 import numpy as np
@@ -32,8 +33,8 @@ def test(test_model, data, **kwargs):
 
     # Example performance metrics (accuracy and average loss) that can
     # be computed
-    acc = 0.5
-    ave_loss = 1.0
+    acc = random.random()
+    ave_loss = 10 * random.random()
 
     return acc, ave_loss
 

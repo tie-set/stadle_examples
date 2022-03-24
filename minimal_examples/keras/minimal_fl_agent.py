@@ -2,6 +2,7 @@ import os
 import sys
 import argparse
 import time
+import random
 import numpy as np
 import tensorflow as tf
 from typing import List
@@ -45,8 +46,8 @@ def test(test_model, data, **kwargs):
 
     # Example performance metrics (accuracy and average loss) that can
     # be computed
-    acc = 0.5
-    ave_loss = 1.0
+    acc = random.random()
+    ave_loss = 10 * random.random()
 
     return acc, ave_loss
 
