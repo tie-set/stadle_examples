@@ -1,9 +1,9 @@
 from stadle import AdminAgent
 from stadle.lib.util import admin_arg_parser
-from .minimal_model import MinimalModel
 from stadle.lib.entity.model import BaseModel
 from stadle import BaseModelConvFormat
 
+from minimal_model import MinimalModel
 
 def get_minimal_model():
     return BaseModel("PyTorch-Minimal-Model", MinimalModel(), BaseModelConvFormat.pytorch_format)
