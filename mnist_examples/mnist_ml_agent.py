@@ -83,7 +83,6 @@ if __name__ == '__main__':
 
         """ Training Part"""
         loss = None
-        # 学習開始 (再開)
         # start training
         net.train(True)
         for i, (data, target) in enumerate(loaders['train']):
