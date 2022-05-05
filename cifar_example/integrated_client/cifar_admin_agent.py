@@ -12,8 +12,9 @@ def get_base_model():
 
 if __name__ == '__main__':
     args = client_arg_parser()
+    config_path = r'config/config_admin_agent.json'
 
-    admin_agent = AdminAgent(config_file=args.config_path, simulation_flag=args.simulation,
+    admin_agent = AdminAgent(config_file=config_path, simulation_flag=args.simulation,
                              aggregator_ip_address=args.aggregator_ip, reg_port=args.reg_port,
                              exch_port=args.exch_port, model_path=args.model_path, base_model=get_base_model(),
                              agent_running=args.agent_running)
