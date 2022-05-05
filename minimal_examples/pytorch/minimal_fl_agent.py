@@ -70,16 +70,15 @@ def judge_termination(**kwargs) -> bool:
 if __name__ == '__main__':
     # MLFLow
 
-    parser = argparse.ArgumentParser(description='STADLE CIFAR10 Training')
+    parser = argparse.ArgumentParser(description='STADLE Minimal Training')
     parser.add_argument('--agent_name', default='default_agent')
     args = parser.parse_args()
 
-    config_file = 'config/config_agent.json'
-
+    client_config_file = 'config/config_agent.json'
 
     model = MinimalModel()
 
-    integrated_client = IntegratedClient(config_file=config_file, simulation_flag=True, agent_name=args.agent_name)
+    integrated_client = IntegratedClient(config_file=client_config_file, simulation_flag=True, agent_name=args.agent_name)
     integrated_client.maximum_rounds = 100000
 
     integrated_client.set_termination_function(judge_termination, round_to_exit=20, client=integrated_client)
