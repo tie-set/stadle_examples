@@ -10,7 +10,8 @@ import torchvision.transforms as transforms
 
 from vgg import VGG
 
-from stadle import BasicClient, client_arg_parser
+from stadle import BasicClient
+from stadle.lib.util.helpers import client_arg_parser
 
 def main():
 
@@ -38,12 +39,14 @@ def main():
 
     # Choose a device based on your machine
     parser = client_arg_parser()
-    parser.add_argument('--cuda', type=bool, required=False, help='Use cuda')
+    parser.add_argument('--cuda', action='store_true', required=False, help='Use cuda')
 
     args = parser.parse_args()
 
     client_config_path = r'config/config_agent.json'
     stadle_client = BasicClient(config_file=client_config_path, cl_args=args)
+
+    print(args)
 
     device = ('cuda' if args.cuda else 'cpu')
 

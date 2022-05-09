@@ -11,6 +11,7 @@ import torchvision
 import torchvision.transforms as transforms
 
 from stadle import IntegratedClient
+from stadle.lib.util.helpers import client_arg_parser
 
 from vgg import VGG as Model
 
@@ -204,9 +205,7 @@ def judge_termination(**kwargs) -> bool:
 
 
 if __name__ == '__main__':
-    # MLFLow
-
-    parser = argparse.ArgumentParser(description='STADLE CIFAR10 Training')
+    parser = client_arg_parser()
 
     parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
 
@@ -214,8 +213,6 @@ if __name__ == '__main__':
     parser.add_argument('--sel_count', default=1.0, type=float)
 
     parser.add_argument('--lt_epochs', default=3)
-
-    parser.add_argument('--agent_name', default='default_agent')
 
     parser.add_argument('--cuda', action='store_true', default=False)
 
@@ -237,7 +234,7 @@ if __name__ == '__main__':
 
     model = Model('VGG16')
 
-    integrated_client = IntegratedClient(config_file=config_file, simulation_flag=True, agent_name=args.agent_name)
+    integrated_client = IntegratedClient(config_file=config_file, cl_args=args)
     integrated_client.maximum_rounds = 100000
 
     integrated_client.set_termination_function(judge_termination, round_to_exit=20, client=integrated_client)

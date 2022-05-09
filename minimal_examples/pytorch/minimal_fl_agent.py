@@ -9,6 +9,7 @@ import torch
 
 
 from stadle import IntegratedClient
+from stadle.lib.util.helpers import client_arg_parser
 
 from minimal_model import MinimalModel
 
@@ -69,7 +70,6 @@ def judge_termination(**kwargs) -> bool:
 
 if __name__ == '__main__':
     config_file = 'config/config_agent.json'
-
 
     model = MinimalModel()
 

@@ -15,6 +15,7 @@ import torchvision
 import torchvision.transforms as transforms
 
 from stadle import IntegratedClient
+from stadle.lib.util.helpers import client_arg_parser
 
 from yolov5.models.yolo import Model
 
@@ -128,6 +129,12 @@ def judge_termination(**kwargs) -> bool:
         client.stop_model_exchange_routine()
     return keep_running
 
+def get_model():
+    model_structure_dict_file = './dataset/weight/eggplant_1000.pt'
+
+    model = torch.load(model_structure_dict_file)['model']
+
+    return model
 
 if __name__ == '__main__':
     # YOLOv5-specific parameters for local training
@@ -139,18 +146,7 @@ if __name__ == '__main__':
 
     train_round = 0
 
-    parser = argparse.ArgumentParser(description='Evaluate Client arguments')
-    parser.add_argument('--config_path', metavar='cfp', type=str,
-                        help='database server configuration path')
-    parser.add_argument('--simulation', action='store_true', required=False, default=False,
-                        help='simulation or not (if flag added simulation mode)')
-    parser.add_argument('--ip_address', metavar='ip', type=str, help="Ip address of the aggregator server")
-    parser.add_argument('--comm_protocol', metavar='com', type=str, help="Protocol to use for connection")
-    parser.add_argument('--reg_port', metavar='p', type=str, help="registration port")
-    parser.add_argument('--exch_port', metavar='p', type=str, help="exchange port")
-    parser.add_argument('--model_path', metavar='m_path', type=str, help="model path")
-    parser.add_argument('--agent_running', action='store_true', required=False, default=True,
-                        help='agent running or not (if flag added simulation mode)')
+    parser = client_arg_parser()
     parser.add_argument('--dataset', type=str, help='Choose local dataset to train on (eggplant/negi/tomato)')
     parser.add_argument('--device', type=str, help='Specify device(s) to use when running YOLOv5 (ex: --device cpu, --device 0, --device 0,1,2,3)')
     parser.add_argument('--termination_round', type=int, help='Specify round to stop FL')
@@ -164,17 +160,10 @@ if __name__ == '__main__':
     if not os.path.exists(agg_save_dir):
         os.makedirs(agg_save_dir)
 
-    model_structure_dict_file = './dataset/weight/eggplant_1000.pt'
-
-    model = torch.load(model_structure_dict_file)['model']
 
 
 
-
-    integrated_client = IntegratedClient(config_file=args.config_path, simulation_flag=args.simulation,
-                               comm_protocol=args.comm_protocol, aggregator_ip_address=args.aggregator_ip,
-                               reg_port=args.reg_port, exch_port=args.exch_port, model_path=args.model_path,
-                               agent_running=args.agent_running)
+    integrated_client = IntegratedClient(config_file='config/config_agent.json', cl_args=args)
     integrated_client.maximum_rounds = 100000
 
     integrated_client.set_termination_function(judge_termination, round_to_exit=args.termination_round, client=integrated_client)

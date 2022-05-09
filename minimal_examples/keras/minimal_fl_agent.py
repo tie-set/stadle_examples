@@ -3,11 +3,15 @@ import sys
 import argparse
 import time
 import random
+from typing import List
+
 import numpy as np
 import tensorflow as tf
-from typing import List
 from tensorflow import keras
+
 from stadle import IntegratedClient
+from stadle.lib.util.helpers import client_arg_parser
+
 
 # from minimal_model import MinimalModel
 
@@ -85,7 +89,7 @@ if __name__ == '__main__':
 
     model = get_minimal_model()
 
-    integrated_client = IntegratedClient(config_file=client_config_file, use_cl_args=True)
+    integrated_client = IntegratedClient(config_file=client_config_file, cl_args=client_arg_parser().parse_args())
     integrated_client.maximum_rounds = 100000
 
     integrated_client.set_termination_function(judge_termination, round_to_exit=20, client=integrated_client)

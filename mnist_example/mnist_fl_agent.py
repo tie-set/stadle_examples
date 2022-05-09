@@ -6,6 +6,7 @@ from torchvision import datasets, transforms
 from models.mynet import MyNet
 
 from stadle import BasicClient
+from stadle.lib.util.helpers import client_arg_parser
 
 import argparse
 
@@ -42,6 +43,7 @@ def load_MNIST(batch=128, intensity=1.0, classes=None, sel_prob=1.0, def_prob=0.
         trainset.targets = trainset.targets[mask]
 
         trainset_size = len(trainset)
+        print(trainset_size)
 
         train_loader = torch.utils.data.DataLoader(trainset, batch_size=batch, shuffle=True)
 
@@ -72,8 +74,7 @@ def load_MNIST(batch=128, intensity=1.0, classes=None, sel_prob=1.0, def_prob=0.
 
 if __name__ == '__main__':
     
-    parser = argparse.ArgumentParser(description='STADLE CIFAR10 Training')
-    parser.add_argument('--agent_name', default='default_agent')
+    parser = client_arg_parser()
     parser.add_argument('--classes')
     parser.add_argument('--def_prob', type=float, default=0.1)
     parser.add_argument('--sel_prob', type=float, default=1.0)
@@ -98,7 +99,7 @@ if __name__ == '__main__':
     optimizer = torch.optim.Adam(params=net.parameters(), lr=0.001)
 
     client_config_path = r'config/config_agent.json'
-    stadle_client = BasicClient(config_file=client_config_path, agent_name=args.agent_name)
+    stadle_client = BasicClient(config_file=client_config_path, cl_args=args)
     # インスタンス化して入れる
     stadle_client.set_bm_obj(net)
 

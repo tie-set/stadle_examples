@@ -15,11 +15,9 @@ client:
     agents:
       - name: cifar_agent
         aggregator: aggregator_1
-        file: fl_training.py
+        file: cifar_fl_agent.py
         num_agents: 1
         simulation: False
-        args:
-            cuda: is_flag
 
 server:
   - name: aggregator_1
