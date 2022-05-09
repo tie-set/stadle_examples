@@ -171,7 +171,7 @@ if __name__ == '__main__':
 
 
     integrated_client = IntegratedClient(config_file=args.config_path, simulation_flag=args.simulation,
-                               aggregator_ip_address=args.aggregator_ip,
+                               comm_protocol=args.comm_protocol, aggregator_ip_address=args.aggregator_ip,
                                reg_port=args.reg_port, exch_port=args.exch_port, model_path=args.model_path,
                                agent_running=args.agent_running)
     integrated_client.maximum_rounds = 100000

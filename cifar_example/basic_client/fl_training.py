@@ -32,7 +32,7 @@ testset = torchvision.datasets.CIFAR10(
 testloader = torch.utils.data.DataLoader(
     testset, batch_size=64, shuffle=False, num_workers=2)
 
-device = 'cuda'
+device = 'cpu'
 
 num_epochs = 200
 lr = 0.001
@@ -47,7 +47,7 @@ scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200)
 
 
 client_config_path = r'config/config_agent.json'
-stadle_client = BasicClient(config_file=client_config_path)
+stadle_client = BasicClient(config_file=client_config_path, use_cl_args=True)
 
 stadle_client.set_bm_obj(model)
 

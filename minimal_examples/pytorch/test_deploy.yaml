@@ -1,0 +1,27 @@
+version: 2.x.x
+
+client:
+    model:
+        name: minimal_model
+        model_file: minimal_model.py
+        model_func: MinimalModel
+        type: pytorch
+        aggregator: aggregator_1
+    storage:
+        stadle_model_path: ./data/agent
+        local_model_file_name: lms.binaryfile
+        sg_model_file_name: sgms.binaryfile
+        state_file_name: state
+    agents:
+      - name: minimal_agent
+        aggregator: aggregator_1
+        file: minimal_fl_agent.py
+        num_agents: 1
+        simulation: True
+
+server:
+  - name: aggregator_1
+    address: localhost
+    reg_port: 8765
+    token: stadle12345
+    comm_protocol: http

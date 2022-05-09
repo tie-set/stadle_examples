@@ -20,7 +20,7 @@ if __name__ == '__main__':
     base_model = BaseModel('YOLOv5 Vegetable Model', base_model_obj['model'], BaseModelConvFormat.pytorch_format)
 
     admin_agent = AdminAgent(config_file=args.config_path, simulation_flag=args.simulation,
-                             aggregator_ip_address=args.aggregator_ip, reg_port=args.reg_port,
+                             comm_protocol=args.comm_protocol, aggregator_ip_address=args.aggregator_ip, reg_port=args.reg_port,
                              exch_port=args.exch_port, model_path=args.model_path, base_model=base_model,
                              agent_running=args.agent_running)
 

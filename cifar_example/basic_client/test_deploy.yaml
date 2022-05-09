@@ -1,0 +1,29 @@
+version: 2.x.x
+
+client:
+    model:
+        name: test_model
+        model_file: vgg.py
+        model_func: VGG
+        model_func_args:
+            vgg_name: "VGG11"
+        type: pytorch
+        aggregator: aggregator_1
+    storage:
+        stadle_model_path: ./data/agent
+        local_model_file_name: lms.binaryfile
+        sg_model_file_name: sgms.binaryfile
+        state_file_name: state
+    agents:
+      - name: cifar_agent
+        aggregator: aggregator_1
+        file: fl_training.py
+        config_gen_name: cifar_agent_config
+        num_agents: 3
+
+server:
+  - name: aggregator_1
+    address: localhost
+    reg_port: 8765
+    token: stadle12345
+    comm_protocol: http
