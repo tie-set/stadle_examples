@@ -145,6 +145,7 @@ if __name__ == '__main__':
     parser.add_argument('--simulation', action='store_true', required=False, default=False,
                         help='simulation or not (if flag added simulation mode)')
     parser.add_argument('--ip_address', metavar='ip', type=str, help="Ip address of the aggregator server")
+    parser.add_argument('--comm_protocol', metavar='com', type=str, help="Protocol to use for connection")
     parser.add_argument('--reg_port', metavar='p', type=str, help="registration port")
     parser.add_argument('--exch_port', metavar='p', type=str, help="exchange port")
     parser.add_argument('--model_path', metavar='m_path', type=str, help="model path")
