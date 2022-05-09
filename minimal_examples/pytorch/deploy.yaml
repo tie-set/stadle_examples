@@ -1,8 +1,6 @@
-version: 2.x.x
-
 client:
     model:
-        name: minimal_model
+        name: PyTorch-Minimal-Model
         model_file: minimal_model.py
         model_func: MinimalModel
         type: pytorch
@@ -17,7 +15,7 @@ client:
         aggregator: aggregator_1
         file: minimal_fl_agent.py
         num_agents: 1
-        simulation: True
+        simulation: False
 
 server:
   - name: aggregator_1

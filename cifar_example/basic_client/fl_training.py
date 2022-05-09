@@ -1,5 +1,7 @@
 import sys
 
+import argparse
+
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -8,7 +10,7 @@ import torchvision.transforms as transforms
 
 from vgg import VGG
 
-from stadle import BasicClient
+from stadle import BasicClient, client_arg_parser
 
 def main():
 
@@ -35,8 +37,15 @@ def main():
         testset, batch_size=64, shuffle=False, num_workers=2)
 
     # Choose a device based on your machine
-    device = 'cuda'
-    # device = 'cpu'
+    parser = client_arg_parser()
+    parser.add_argument('--cuda', type=bool, required=False, help='Use cuda')
+
+    args = parser.parse_args()
+
+    client_config_path = r'config/config_agent.json'
+    stadle_client = BasicClient(config_file=client_config_path, cl_args=args)
+
+    device = ('cuda' if args.cuda else 'cpu')
 
     num_epochs = 200
     lr = 0.001
@@ -48,10 +57,6 @@ def main():
     optimizer = optim.SGD(model.parameters(), lr=lr,
                         momentum=momentum, weight_decay=5e-4)
     scheduler = torch.optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=200)
-
-
-    client_config_path = r'config/config_agent.json'
-    stadle_client = BasicClient(config_file=client_config_path, use_cl_args=True)
 
     stadle_client.set_bm_obj(model)
 

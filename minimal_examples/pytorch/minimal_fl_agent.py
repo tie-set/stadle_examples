@@ -73,7 +73,7 @@ if __name__ == '__main__':
 
     model = MinimalModel()
 
-    integrated_client = IntegratedClient(config_file=config_file, simulation_flag=True, use_cl_args=True)
+    integrated_client = IntegratedClient(config_file=config_file, cl_args=client_arg_parser().parse_args())
     integrated_client.maximum_rounds = 100000
 
     integrated_client.set_termination_function(judge_termination, round_to_exit=20, client=integrated_client)
