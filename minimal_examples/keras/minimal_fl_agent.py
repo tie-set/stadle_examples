@@ -3,11 +3,15 @@ import sys
 import argparse
 import time
 import random
+from typing import List
+
 import numpy as np
 import tensorflow as tf
-from typing import List
 from tensorflow import keras
+
 from stadle import IntegratedClient
+from stadle.lib.util.helpers import client_arg_parser
+
 
 # from minimal_model import MinimalModel
 
@@ -81,17 +85,11 @@ def judge_termination(**kwargs) -> bool:
 
 
 if __name__ == '__main__':
-    # MLFLow
-
-    parser = argparse.ArgumentParser(description='STADLE Minimal Training')
-    parser.add_argument('--agent_name', default='default_agent')
-    args = parser.parse_args()
-
     client_config_file = 'config/config_agent.json'
 
     model = get_minimal_model()
 
-    integrated_client = IntegratedClient(config_file=client_config_file, simulation_flag=True, agent_name=args.agent_name)
+    integrated_client = IntegratedClient(config_file=client_config_file, cl_args=client_arg_parser().parse_args())
     integrated_client.maximum_rounds = 100000
 
     integrated_client.set_termination_function(judge_termination, round_to_exit=20, client=integrated_client)

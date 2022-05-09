@@ -1,0 +1,1 @@
+{"agent_name": "minimal_agent", "model_path": "./data/agent", "local_model_file_name": "lms.binaryfile", "semi_global_model_file_name": "sgms.binaryfile", "state_file_name": "state", "comm_protocol": "http", "aggr_ip": "localhost", "reg_port": 8765, "exch_port": "0000", "simulation": true, "token": "stadle12345"}

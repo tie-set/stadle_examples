@@ -1,0 +1,46 @@
+client:
+    model:
+        name: MNIST-Model
+        model_file: models/mynet.py
+        model_func: MyNet
+        type: pytorch
+        aggregator: aggregator_1
+    storage:
+        stadle_model_path: ./data/agent
+        local_model_file_name: lms.binaryfile
+        sg_model_file_name: sgms.binaryfile
+        state_file_name: state
+    agents:
+      - name: mnist_agent_1
+        aggregator: aggregator_1
+        file: mnist_fl_agent.py
+        num_agents: 1
+        simulation: False
+        args:
+            classes: 1,2,3
+            def_prob: 0.05
+      
+      - name: mnist_agent_2
+        aggregator: aggregator_1
+        file: mnist_fl_agent.py
+        num_agents: 1
+        simulation: False
+        args:
+            classes: 4,5,6
+            def_prob: 0.05
+      
+      - name: mnist_agent_3
+        aggregator: aggregator_1
+        file: mnist_fl_agent.py
+        num_agents: 1
+        simulation: False
+        args:
+            classes: 7,8,9,0
+            def_prob: 0.05
+
+server:
+  - name: aggregator_1
+    address: localhost
+    reg_port: 8765
+    token: stadle12345
+    comm_protocol: http
