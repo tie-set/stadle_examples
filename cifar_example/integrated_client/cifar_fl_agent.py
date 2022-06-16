@@ -1,7 +1,5 @@
-import os
-import sys
-from typing import List
 import argparse
+import os
 
 import numpy as np
 import torch
@@ -9,10 +7,13 @@ import torch.nn as nn
 import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
-
 from stadle import IntegratedClient
+from stadle.lib.logging.logger import Logger
 
 from vgg import VGG as Model
+
+log = Logger("integratedClient").logger
+
 
 def data_processing(data_save_path: str = "./data", max_workers=2, batch_size=64, args=None):
 
@@ -75,7 +76,7 @@ def train(model, data, **kwargs):
 
     agent_name = kwargs.get("agent_name") if kwargs.get("agent_name") else 'default_agent'
 
-    print('Saving..')
+    log.info('Saving..')
     if not os.path.isdir(f'checkpoint/{agent_name}'):
         os.makedirs(f'checkpoint/{agent_name}', exist_ok=True)
     torch.save(model.state_dict(), f"./checkpoint/{agent_name}/ckpt_sg.pth")
@@ -91,7 +92,7 @@ def train(model, data, **kwargs):
 
     for epoch in range(epochs):  # loop over the dataset multiple times
 
-        print('\nEpoch: %d' % (epoch + 1))
+        log.info('Epoch: %d' % (epoch + 1))
 
         model.train()
         train_loss = 0
@@ -113,14 +114,14 @@ def train(model, data, **kwargs):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
 
-            sys.stdout.write('\r'+f"\rEpoch Accuracy: {(100*correct/total):.2f}%")
+            log.info(f"Epoch Accuracy: {(100*correct/total):.2f}%")
         print('\n')
-    print('Finished Training')
+    log.info('Finished Training')
     ave_loss = sum(ave_loss) / len(ave_loss)
 
     model = model.to('cpu')
 
-    print('Saving..')
+    log.info('Saving..')
     if not os.path.isdir(f'checkpoint/{agent_name}'):
         os.makedirs(f'checkpoint/{agent_name}', exist_ok=True)
     torch.save(model.state_dict(), f"./checkpoint/{agent_name}/ckpt_local.pth")
@@ -148,7 +149,7 @@ def test(test_model, data, **kwargs):
             correct += (predicted == targets).sum().item()
 
     overall_accuracy = 100 * correct / total
-    print('Accuracy of the network on the 10000 test images: %d %%' % (overall_accuracy))
+    log.info('Accuracy of the network on the 10000 test images: %d %%' % (overall_accuracy))
 
     # prepare to count predictions for each class
     correct_pred = {classname: 0 for classname in classes}
@@ -170,15 +171,15 @@ def test(test_model, data, **kwargs):
     # Capture average accuracy across all classes
     for classname, correct_count in correct_pred.items():
         accuracy = 100 * float(correct_count) / total_pred[classname]
-        print("Accuracy for class {:5s} is: {:.1f} %".format(classname,
+        log.info("Accuracy for class {:5s} is: {:.1f} %".format(classname,
                                                              accuracy))
     return overall_accuracy, 0
 
 
 def validate(model, data, **kwargs):
-    print("Validate Model")
+    log.info("Validate Model")
     acc, ave_loss = test(test_model=model, data=data, **kwargs)
-    print(f'Validation Accuracy of the model: {acc} %')
+    log.info(f'Validation Accuracy of the model: {acc} %')
     return acc, ave_loss
 
 
@@ -196,7 +197,7 @@ def judge_termination(**kwargs) -> bool:
     keep_running = True
     client = kwargs.get('client')
     current_fl_round = client.federated_training_round
-    print(f"Current Federated Learning Round: >>>>>> : {current_fl_round}")
+    log.info(f"Current Federated Learning Round: >>>>>> : {current_fl_round}")
     if current_fl_round >= int(kwargs.get("round_to_exit")):
         keep_running = False
         client.stop_model_exchange_routine()
@@ -240,7 +241,7 @@ if __name__ == '__main__':
     integrated_client = IntegratedClient(config_file=config_file, simulation_flag=True, agent_name=args.agent_name)
     integrated_client.maximum_rounds = 100000
 
-    integrated_client.set_termination_function(judge_termination, round_to_exit=20, client=integrated_client)
+    integrated_client.set_termination_function(judge_termination, round_to_exit=5, client=integrated_client)
 
     integrated_client.set_training_function(train, trainloader, lr=args.lr, epochs=args.lt_epochs, device=device, agent_name=args.agent_name)
     integrated_client.set_validation_function(validate, testloader, device=device)
@@ -251,4 +252,4 @@ if __name__ == '__main__':
     integrated_client.start()
     training_done = integrated_client.training_finalized
     if training_done:
-        print("Training Completed!")
+        log.info("Training Completed!")
