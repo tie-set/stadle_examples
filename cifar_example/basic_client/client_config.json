@@ -1,0 +1,23 @@
+{
+    "model_path": "./data/agent",
+    "local_model_file_name": "lms.binaryfile",
+    "semi_global_model_file_name": "sgms.binaryfile",
+    "state_file_name": "state",
+    "aggr_ip": "k8s-aggregat-aggregat-a496673421-90c6010e5cd162cd.elb.us-west-1.amazonaws.com",
+    "reg_port": "8765",
+    "init_weights_flag": 1,
+    "token": "stadle12345",
+    "simulation": "False",
+    "agent_name": "default_agent",
+    "base_model": {
+        "client_preload": "True",
+        "model_name": "CIFAR-10 VGG Model",
+        "model_fn_src": "vgg",
+        "model_fn": "VGG",
+        "model_fn_args": {
+            "vgg_name": "VGG16"
+        },
+        "model_format": "PyTorch"
+    }
+  }
+  

@@ -1,4 +1,6 @@
-# YOLOv5 Example
+# DEPRECATED - YOLOv5 Example
+
+### This example is currently deprecated, and is kept only for reference.
 
 This prototype runs the previously tested YOLOv5 FL training process with STADLE on the vegetable dataset, using the new client API.
 
@@ -26,19 +28,7 @@ Run the following commands in order to start the YOLOv5 FL example on the vegeta
 
 The persistence server and the aggregator server should both be run from the root `stadle_dev` folder, and the admin agent/yolo engine should be run from the prototype folder (`prototypes/examples/yolo_example`).
 
-1. Run the Persistence Server
-
-    ```bash
-    stadle persistence-server
-    ```
-
-2. Run the Aggregator Server
-
-    ```bash
-    stadle aggregator
-    ```
-
-3. Upload the model. The admin agent is used to upload the model to the aggregator(s) and database for use in the FL process.
+1. Upload the model. The admin agent is used to upload the model to the aggregator(s) and database for use in the FL process.
 
     ```bash
     python yolo_admin_agent.py
@@ -46,45 +36,7 @@ The persistence server and the aggregator server should both be run from the roo
 
     At this stage, we are ready to run the agents on each of the vegetable datasets - the dataset used by each agent can be specified through the respective CLI argument.
 
-4. Run the client on the specified dataset
-
-    ```bash
-    python yolo_engine_sim.py --dataset <eggplant/negi/tomato>
-    ```
-
-## Execution with docker-container set up
-
-Run the following commands in order to start the YOLOv5 FL example on the vegetable dataset.
-
-The persistence server and the aggregator server should both be run using following bash command from the stadle_dev base directory.
-
-```bash
-docker-compose build
-docker-compose up
-```
-
-Now that persistence-server and aggregator services are running with docker on this machine, we need to setup ENVSTADLE in local environment to use stadle and yolo together.
-
-1. To set up stadle and yolo environments as [ENVSTADLE], run the following commands from stadle base directory.
-
-    ```bash
-    ./quickstart_stadle.sh dev
-    source ENVSTADLE/bin/activate
-    cd prototypes/examples/yolo_example/yolov5/
-    pip install -r requirements.txt
-    ```
-
-2. Make sure all the dataset files are setup and enter the execution directory which is "stadle_base/prototypes/examples/yolo_example".
-
-3. Upload the model. The admin agent is used to upload the model to the aggregator(s) and database for use in the FL process.
-
-    ```bash
-    python yolo_admin_agent.py
-    ```
-
-    At this stage, we are ready to run the agents on each of the vegetable datasets - the dataset used by each agent can be specified through the respective CLI argument.
-
-4. Run a client on the specified dataset
+2. Run the client on the specified dataset
 
     ```bash
     python yolo_engine_sim.py --dataset <eggplant/negi/tomato>
@@ -96,5 +48,3 @@ Now that persistence-server and aggregator services are running with docker on t
     - `--start_round`: Integer >= 0; specifies the round at which the agent should start training and sending models.  Defaults to 0.
     - `--termination_round`: Integer >= 0; specifies the round at which the agent should stop training and sending models.  If not provided, the agent will run indefinitely.
     - `--device`: Either `cpu`, or an integer/list of integers corresponding to the device numbers of the GPU(s) to be used; specifies device(s) to run YOLO with.  If not provided, will select based on local PyTorch installation.
-
-5. Check the visual results created by yolo at the output directory located at "stadle_base/prototypes/examples/yolo_docker/output".
