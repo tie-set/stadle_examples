@@ -24,13 +24,6 @@ prototypes/minimal/__pycache__/
 .DS_Store
 *.DS_Store
 
-# Data folders
-minimal_examples/pytorch/data
-minimal_examples/keras/data
-cifar_example/basic_client/data/
-cifar_example/data/
-cifar_example/integrated_client/data/
-
 # YOLO example-specific ignores
 prototypes/examples/yolo_example/dataset
 prototypes/examples/yolo_example/yolov5
@@ -38,3 +31,8 @@ prototypes/examples/yolo_example/output
 
 # pytest specific ignores
 .pytest_cache/
+
+stadle_logs
+logs
+data
+cifar_data
