@@ -1,3 +1,4 @@
+import argparse
 import torch
 import torch.nn.functional as f
 from torch.utils.data import DataLoader
@@ -6,8 +7,6 @@ import matplotlib.pyplot as plt
 from model import MyNet
 
 from stadle import BasicClient
-
-import argparse
 
 
 def load_MNIST(batch=128, intensity=1.0):
@@ -59,8 +58,10 @@ if __name__ == '__main__':
 
     optimizer = torch.optim.Adam(params=net.parameters(), lr=0.001)
 
-    client_config_path = r'config/config_agent.json'
+    # create stadle_client
+    client_config_path = r'client_config.json'
     stadle_client = BasicClient(config_file=client_config_path,agent_name=args.agent_name)
+
     # create instance
     stadle_client.set_bm_obj(net)
 
@@ -68,6 +69,7 @@ if __name__ == '__main__':
 
         # stadle model
         if (e % 2 == 0):
+
             # Don't send model at beginning of training
             if (e != 0):
                 perf_dict = {
@@ -83,13 +85,11 @@ if __name__ == '__main__':
 
         """ Training Part"""
         loss = None
+
         # start training
         net.train(True)
         for i, (data, target) in enumerate(loaders['train']):
-            # print(data.shape)  # torch.Size([128, 1, 28, 28])
             data = data.view(-1, 28 * 28)
-            # print(data.shape)  # torch.Size([128, 784])
-
             optimizer.zero_grad()
             output = net(data)
             loss = f.nll_loss(output, target)
@@ -118,8 +118,7 @@ if __name__ == '__main__':
 
         test_loss /= 10000
 
-        print('Test loss (avg): {}, Accuracy: {}'.format(test_loss,
-                                                         correct / 10000))
+        print('Test loss (avg): {}, Accuracy: {}'.format(test_loss, correct / 10000))
 
         history['test_loss'].append(test_loss)
         history['test_acc'].append(correct / 10000)
