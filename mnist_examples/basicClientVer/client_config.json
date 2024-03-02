@@ -8,6 +8,12 @@
   "init_weights_flag": 1,
   "token": "stadle12345",
   "simulation": "False",
-  "exch_socket": "0000",
-  "agent_name": "default_agent"
+  "agent_name": "default_agent",
+  "base_model": {
+    "client_preload": "True",
+    "model_name": "PyTorch-Mnist-Model",
+    "model_fn_src": "model",
+    "model_fn": "MyNet",
+    "model_format": "PyTorch"
+  }
 }
