@@ -15,7 +15,7 @@ if __name__ == '__main__':
 
     admin_agent = AdminAgent(config_file="config/config_admin_agent.json", simulation_flag=args.simulation,
                              aggregator_ip_address=args.aggregator_ip, reg_port=args.reg_port,
-                             exch_socket=args.exch_port, model_path=args.model_path, base_model=get_mynet_model(),
+                             model_path=args.model_path, base_model=get_mynet_model(),
                              agent_running=False)
 
     admin_agent.preload()
