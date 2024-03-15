@@ -4,11 +4,11 @@ This example demonstrates how to integrate STADLE into MNIST learning code using
 
 ## Setup Aggregator
 
-0. Purchase STADLE license.
+0. Sign up and purchase a STADLE license in TieSet's [User Portal](https://userportal.tieset.ai/).
 
-1. Sign up, login, and create a project in [stadle.ai](https://www.stadle.ai/).
+1. Login and create a project in [STADLE Dashboard](https://www.stadle.ai/) using the license key.
 
-2. Create a Project. At least one aggregator must already be running on a project.
+2. Initiate an aggregator. At least one aggregator must already be running on a project.
 
 
 ## Execution
@@ -18,17 +18,17 @@ Please refer to [Usage](https://stadle-documentation.readthedocs.io/en/latest/us
 
 1. Upload the model. The admin agent is used to upload the model to the aggregator(s) and database for use in the FL process.
 
-    ```bash
-    stadle upload-model --config_path client_config.json
-    ```
+```bash
+stadle upload-model --config_path client_config.json
+```
 
-    The configuration file `client_config.json` must be modified to correspond with the server-side components. 
+The configuration file `client_config.json` must be modified to correspond with the server-side components. 
 
 2. Run the FL Client.
 
-    ```bash
-    python mnist_ml_agent.py  --agent_name <AGENT_NAME> --num_rounds <NUM_ROUNDS>
-    ```
+```bash
+python mnist_ml_agent.py  --agent_name <AGENT_NAME> --num_rounds <NUM_ROUNDS>
+```
 
-    If multiple (non-admin) agents are being created on the same machine, make sure to specify unique agent names using the `--agent_name` flag when running `mnist_ml_agent.py` or the `agent_name` parameter in the `BasicClient` constructor.
+If multiple (non-admin) agents are being created on the same machine, make sure to specify unique agent names using the `--agent_name` flag when running `mnist_ml_agent.py` or the `agent_name` parameter in the `BasicClient` constructor.
 
