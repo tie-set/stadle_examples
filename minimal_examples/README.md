@@ -1,21 +1,36 @@
 # Minimal Examples
 
-These examples demonstrate how to integrate STADLE into minimal deep learning code using both PyTorch and Keras.
+This guide provides examples of how to integrate STADLE with basic deep learning code using PyTorch and Keras frameworks.
 
-In order to run any of the STADLE examples, at least one aggregator must already be running.  In addition, the configuration files located in the `config` directory must be modified to correspond with the server-side components if running on multiple instances.  If multiple (non-admin) agents are being created on the same machine, make sure to specify unique agent names using the `--agent_name` flag when running `minimal_fl_agent.py` or the `agent_name` parameter in the `BasicClient` constructor.
+## Configuration
 
-Please refer to [Usage](https://stadle-documentation.readthedocs.io/en/latest/usage.html) for more details on the server-side components and the integration of the STADLE `BasicClient`.
+### Aggregator IP
+
+The `client_config.json` files in the `pytorch` and `keras` directories are updated to match the server-side.
+In particluar, set the `aggr_ip` in `client_config.json` to the `LB Address to Connect` displayed on the STADLE Dashboard page.
+
+### Agent Names
+
+When running multiple agents on the same machine, assign a unique name to each agent. This can be achieved by:
+
+- Using the `--agent_name` flag with `minimal_fl_agent.py`.
+- Setting the `agent_name` parameter in the `BasicClient` constructor in your code.
+
+
+## Further Reading
+
+For detailed information on server-side components and integrating the STADLE `BasicClient`, refer to the [Usage section](https://stadle-documentation.readthedocs.io/en/latest/usage.html) in the STADLE documentation.
 
 ## Execution
 
 1. Upload the model. The admin agent is used to upload the model to the aggregator(s) and database for use in the FL process.
 
-    ```bash
-    stadle upload-model --config_path client_config.json
-    ```
+```bash
+ stadle upload-model --config_path client_config.json
+```
 
 2. Run the FL Client.
 
-    ```bash
-    python minimal_fl_agent.py  --agent_name <AGENT_NAME> --num_rounds <NUM_ROUNDS>
-    ```
+ ```bash
+python minimal_fl_agent.py  --agent_name <AGENT_NAME> --num_rounds <NUM_ROUNDS>
+```
