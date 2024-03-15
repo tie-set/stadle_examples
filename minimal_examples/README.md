@@ -16,12 +16,9 @@ When running multiple agents on the same machine, assign a unique name to each a
 - Using the `--agent_name` flag with `minimal_fl_agent.py`.
 - Setting the `agent_name` parameter in the `BasicClient` constructor in your code.
 
-
-## Further Reading
-
-For detailed information on server-side components and integrating the STADLE `BasicClient`, refer to the [Usage section](https://stadle-documentation.readthedocs.io/en/latest/usage.html) in the STADLE documentation.
-
 ## Execution
+
+Change the directory to `pytorch` or `keras` first.
 
 1. Upload the model. The admin agent is used to upload the model to the aggregator(s) and database for use in the FL process.
 
@@ -34,3 +31,7 @@ For detailed information on server-side components and integrating the STADLE `B
  ```bash
 python minimal_fl_agent.py  --agent_name <AGENT_NAME> --num_rounds <NUM_ROUNDS>
 ```
+
+## Further Reading
+
+For detailed information on server-side components and integrating the STADLE `BasicClient`, refer to the [Usage section](https://stadle-documentation.readthedocs.io/en/latest/usage.html) in the STADLE documentation.
