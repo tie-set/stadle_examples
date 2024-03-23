@@ -38,6 +38,7 @@ if __name__ == '__main__':
     
     parser = argparse.ArgumentParser(description='STADLE MNIST Training')
     parser.add_argument('--agent_name', default='default_agent')
+    parser.add_argument('--num_rounds', type=int, default=20)
     args = parser.parse_args()
     
     # traing count number
