@@ -1,0 +1,21 @@
+{
+    "model_path": "./data/agent",
+    "local_model_file_name": "lms.binaryfile",
+    "semi_global_model_file_name": "sgms.binaryfile",
+    "comm_protocol": "https",
+    "state_file_name": "state",
+    "aggr_ip": "LB_ADDRESS_HERE",
+    "reg_port": "8765",
+    "init_weights_flag": 1,
+    "token": "stadle12345",
+    "simulation": "False",
+    "agent_name": "default_agent",
+    "base_model": {
+        "client_preload": "True",
+        "model_name": "YOLOv11 Model",
+        "model_fn_src": "yolo_model",
+        "model_fn": "get_model",
+        "model_format": "PyTorch"
+    }
+  }
+  
