@@ -1,50 +1,60 @@
-# DEPRECATED - YOLOv5 Example
+# YOLOv11 Vegetable Detection Example
 
-### This example is currently deprecated, and is kept only for reference.
+In this example, we demonstrate how STADLE can facilitate the learning of a global model capable of identifying examples from multiple data subsets without data centralization.  We have three datasets, each with images containing one instance of 'meat', one of 'fish' and one of 'vegetable' - however, the actual vegetable identified with the label is different for each dataset.  Specifically, each dataset contains exactly one of tomatoes/eggplants/leeks(negi) as the object labeled with 'vegetable'.  We will demonstate how, while the model only trained on one dataset fails to detect the other vegetable instances as 'vegetable', running a training process for each dataset and using STADLE to aggregate the models produces a model that can idenfity all vegetable instances in an image correctly.
 
-This prototype runs the previously tested YOLOv5 FL training process with STADLE on the vegetable dataset, using the new client API.
+## Environment Setup
 
-Currently, we capture the `mAP@[0.5,0.95]` (average of mean absolute precision values over [0.5,0.95] range of IoU thresholds) from the YOLOv5 val.py output to use as the 'test accuracy' of a model.
+The training and validation data can be downloaded from [this Google Drive link](https://drive.google.com/file/d/1UlzFjJXEtpG0anO75HFbZFAof1rIQM9L/view?usp=sharing); unzip `yolo_example_dataset.zip` and move the inner `dataset` folder inside the `yolo_example` folder (same level as this README).
 
-Two things must be done before execution.
+The following pip packages will need to be installed:
+ - `stadle-client` (connect to and use STADLE)
+ - `torch` (PyTorch)
+ - `ultralytics` (YOLO model and utilities)
 
-1. The data should be located in the `yolo_example/dataset` folder (e.g. the eggplant data is in `yolo_example/dataset/data_eggplant`).
-The data can be downloaded from [this Google Drive link](https://drive.google.com/file/d/1qEMlg5Cz8YQJSMWG1m5H8_fCC9-vKTfy/view?usp=sharing).
+Running the command `pip install -r requirements.txt` within this directory will install these three dependencies.
 
-2. Release 6.0 of YOLOv5 should be used; the source code can be downloaded from [this Github link](https://github.com/ultralytics/yolov5/archive/refs/tags/v6.0.zip).
-The `yolov5` folder should be extracted into the `yolo_example` folder (i.e. the `yolov5` folder should be located at `yolo_example/yolov5`).
-OR
-Execute following bash commands, in order, from this folder[prototypes/examples/yolo_example/] as base.
+## STADLE Setup
 
-    ```bash
-    git clone https://github.com/ultralytics/yolov5.git
-    cd yolov5/
-    git reset --hard 956be8e642b5c10af4a1533e09084ca32ff4f21f
-    ```
+Go to STADLE Ops and create a new project, then start an aggregator.  Once the aggregator has been created and its LB address is visible on the dashboard, copy the address and paste it as the value for `aggr_ip` within the `client_config.json` STADLE config file.
 
-## Execution on localhost / single machine setup
+We can now upload the YOLOv11 model information to STADLE to prepare for training; to do this, run the following command from within the `yolo_example` folder:
 
-Run the following commands in order to start the YOLOv5 FL example on the vegetable dataset.
+```bash
+stadle upload-model --config_path client_config.json
+```
 
-The persistence server and the aggregator server should both be run from the root `stadle_dev` folder, and the admin agent/yolo engine should be run from the prototype folder (`prototypes/examples/yolo_example`).
+Depending on where the aggregator was deployed (locally vs provisioning resources on cloud), it may take a couple of minutes for the aggregator to be ready - this model upload will wait for the aggregator address to be active before attempting to send the model.
 
-1. Upload the model. The admin agent is used to upload the model to the aggregator(s) and database for use in the FL process.
+## STADLE Training
 
-    ```bash
-    python yolo_admin_agent.py
-    ```
+To start a single training process (STADLE agent), run the following command:
 
-    At this stage, we are ready to run the agents on each of the vegetable datasets - the dataset used by each agent can be specified through the respective CLI argument.
+```bash
+python yolo_fl_agent.py --dataset <eggplant/tomato/negi>
+```
 
-2. Run the client on the specified dataset
+Accepted arguments:
 
-    ```bash
-    python yolo_engine_sim.py --dataset <eggplant/negi/tomato>
-    ```
+- `--dataset`: One of `eggplant/negi/tomato`; specifies which dataset the agent should use for local training
+- `--num_rounds`: Integer >= 1; number of rounds the agent should participate in.  Defaults to 20.
+- `--num_epochs`: Integer >= 1; number of local training epochs per round.  Defaults to 25.
+- `--device`: Either `cpu`, `cuda` (Nvidia GPU), `mps` (Apple Silicon), or an integer/list of integers corresponding to the device numbers of the GPU(s) to be used; specifies device(s) to run YOLO with.  If not provided, will default to `cpu`.
+- `--agent_name`: Identifying name of agent, should be unique for each agent.  Defaults to `{eggplant/tomato/negi}_yolo_agent` based on dataset used.
 
-    Accepted arguments:
+As training occurs, multiple metrics will appear in the `Performance Tracking` page in STADLE Ops.  Metrics prepended with `train/val` correspond to the values from the training and validation dataset, respectively.  The validation metric values assocciated with the aggregator are computed as the average validation metric value of the semi-global model on each agent's validation dataset.
 
-    - `--dataset`: One of `eggplant/negi/tomato`; specifies which dataset the agent should use for local training
-    - `--start_round`: Integer >= 0; specifies the round at which the agent should start training and sending models.  Defaults to 0.
-    - `--termination_round`: Integer >= 0; specifies the round at which the agent should stop training and sending models.  If not provided, the agent will run indefinitely.
-    - `--device`: Either `cpu`, or an integer/list of integers corresponding to the device numbers of the GPU(s) to be used; specifies device(s) to run YOLO with.  If not provided, will select based on local PyTorch installation.
+When computing metrics such as precision and recall, an IoU (intersection over union) threshold of 50% is used; similarly, `mAP50` (mean average precision) uses an IoU threshold of 50% while `mAP50-95` uses a range of thresholds from 50% to 95% (more difficult evaluation).
+
+To evaluate the performance of aggregation with STADLE, run three training processes in parallel (with each using a different dataset).  Alternatively, the single model (no aggregation) approach can be evaluated by only run a single training process with one dataset.
+
+To silence the outputs generated by YOLO, set the environment variable `YOLO_VERBOSE=False`.
+
+## Run Detection with Model
+
+Once all of the agents have finished running, you can go to the `Model Repo` page in STADLE Ops to see all of the models created in the process.  To evaulate any model, click on the corresponding row and download the model file.  Extract the `.pt` file into the `yolo_example` folder, then rename it to `val_model.pt`.  You can then run the following command to test the model on the `all_veg_test.png` image:
+
+```bash
+python validate_model.py
+```
+
+The resulting image with object detections applied will saved as `all_veg_detections.png`.
